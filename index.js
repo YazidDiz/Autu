@@ -358,7 +358,8 @@ let gifUrls = [
     'https://i.imgur.com/D9KKg2F.mp4',
     'https://i.imgur.com/wJBbgsa.mp4',
     'https://i.imgur.com/mz1GdrL.mp4',
-    'https://i.imgur.com/H3f2Re5.mp4'
+    'https://i.imgur.com/H3f2Re5.mp4',
+	  'https://i.imgur.com/gBYZHdw.mp4'
 ];
 
 let randomIndex = Math.floor(Math.random() * gifUrls.length);
