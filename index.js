@@ -353,16 +353,31 @@ async function accountLogin(state, enableCommands = [], prefix, admin = []) {
 					if (event.logMessageData.addedParticipants && Array.isArray(event.logMessageData.addedParticipants) && event.logMessageData.addedParticipants.some(i => i.userFbId == userid)) {
 					api.changeNickname(`》 ${prefix} 《 ❃ ➠YAZKYBOT`, threadID, userid);
 
-					let gifUrl = 'https://i.imgur.com/hIKhU9n.mp4';
-					let gifPath = __dirname + '/cache/connected.mp4';
+let gifUrls = [
+    'https://i.imgur.com/x1NvBkN.mp4',
+    'https://i.imgur.com/D9KKg2F.mp4',
+    'https://i.imgur.com/wJBbgsa.mp4',
+    'https://i.imgur.com/mz1GdrL.mp4',
+    'https://i.imgur.com/H3f2Re5.mp4'
+];
 
-					axios.get(gifUrl, { responseType: 'arraybuffer' })
-					.then(response => {
-					fs.writeFileSync(gifPath,response.data); return api.sendMessage("𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗜𝗡𝗚...", event.threadID, () => api.sendMessage({ body:`🔴🟢🟡\n\n✅ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦! \n➭ Bot Prefix: ${prefix}\n➭ Admin: ‹${admin}›\n➭ Facebook: ‹https://www.facebook.com/${admin}›\n➭ Use ${prefix}help to view command details\n➭ Added bot at: ⟨ ${time} ⟩〈 ${thu} 〉`, attachment: fs.createReadStream(gifPath)}, event.threadID));
-})
-.catch(error => {
-    console.error(error);
-					});
+let randomIndex = Math.floor(Math.random() * gifUrls.length);
+let gifUrl = gifUrls[randomIndex];
+let gifPath = __dirname + '/cache/connected.mp4';
+
+axios.get(gifUrl, { responseType: 'arraybuffer' })
+    .then(response => {
+        fs.writeFileSync(gifPath, response.data); 
+        return api.sendMessage("𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗜𝗡𝗚...", event.threadID, () => 
+            api.sendMessage({ 
+                body:`🔴🟢🟡\n\n✅ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦! \n➭ Bot Prefix: ${prefix}\n➭ Admin: ‹${admin}›\n➭ Facebook: ‹https://www.facebook.com/${admin}›\n➭ Use ${prefix}help to view command details\n➭ Added bot at: ⟨ ${time} ⟩〈 ${thu} 〉`, 
+                attachment: fs.createReadStream(gifPath)
+            }, event.threadID)
+        );
+    })
+    .catch(error => {
+        console.error(error);
+    });
 							} else {
 								try {
 									const fs = require("fs-extra");
