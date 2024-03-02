@@ -447,8 +447,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 															}
 					                   
 
-							api.setMessageReaction(randomEmoji, event.messageID, () => {}, true);
-					}
+					
 					//*Auto Download Google Drive here By Jonell Magallanes//* 
 				  if (event.body !== null) {
 								(async () => {
