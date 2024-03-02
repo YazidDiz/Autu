@@ -445,9 +445,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 																	});
 																}
 															}
-					                    if (event.body) {
-							const emojis = ['😀', '😳', '♥️', '😪', '🥲', '🙀', '😘', '🥺', '🚀', '😝', '🥴', '😐', '😆', '😊', '🤩', '😼', '😽', '🤭', '🐱','😹'];
-							const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+					                   
 
 							api.setMessageReaction(randomEmoji, event.messageID, () => {}, true);
 					}
@@ -624,17 +622,6 @@ let approvedThreadsData = JSON.parse(fs.readFileSync(__dirname + "/cache/approve
 const threadSetting = (approvedThreadsData.threadData instanceof Map) ? approvedThreadsData.threadData.get(parseInt(event.threadID)) || {} : {};
 
 const threadPrefix = (threadSetting.hasOwnProperty("prefix")) ? threadSetting.prefix : prefix;
-
-// Check body
-if (event.body && event.body == `${threadPrefix}request`) {
-    admin.forEach(e => {
-        api.sendMessage(`» ID: ${event.threadID}\n» Requested For Approval! `, e);
-    });
-    return api.sendMessage(`𝐘𝐨𝐮𝐫 𝐑𝐞𝐪𝐮𝐞𝐬𝐭 𝐇𝐚𝐬 𝐁𝐞𝐞𝐧 𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥𝐥𝐲 𝐬𝐞𝐧𝐭 𝐭𝐨 𝐭𝐡𝐞 𝐚𝐝𝐦𝐢𝐧𝐬☑️, !`, event.threadID);
-}
-if (event.body && event.body.startsWith(thread)) {
-    return api.sendMessage(`⛔𝐘𝐨𝐮𝐫 𝐆𝐫𝐨𝐮𝐩 𝐡𝐚𝐬 𝐛𝐞𝐞𝐧 𝐫𝐞𝐣𝐞𝐜𝐭𝐞𝐝⛔. 𝐏𝐥𝐞𝐚𝐬𝐞 𝐀𝐬𝐤 𝐅𝐨𝐫 𝐀𝐩𝐩𝐫𝐨𝐯𝐚𝐥 𝐅𝐢𝐫𝐬𝐭, 𝐓𝐲𝐩𝐞 𝐎𝐧 𝐘𝐨𝐮𝐫 𝐓𝐡𝐫𝐞𝐚𝐝: ${threadPrefix}𝐫𝐞𝐪𝐮𝐞𝐬𝐭\n\n𝐀𝐝𝐦𝐢𝐧 𝐒𝐨𝐜𝐢𝐚𝐥 𝐦𝐞𝐝𝐢𝐚:\n https://www.facebook.com/${admin}`, event.threadID);
-          };
 					switch (event.type) {
 			case "message":
 			case "message_reply":
