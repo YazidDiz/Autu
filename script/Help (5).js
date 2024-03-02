@@ -4,7 +4,7 @@ const helpConfig = {
   name: 'help',
   version: '1.0.0',
   role: 0,
-  hasPrefix: true,
+  hasPrefix: false,
   aliases: ['info','aide'],
   description: "GUIDE",
   usage: "Help [page] ou [command]",
