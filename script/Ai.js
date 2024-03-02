@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 module.exports.config = {
-		name: "ai2",
+		name: "ai",
 		version: "1.0.0",
 		role: 0,
 		credits: "Eugene Aguilar",
@@ -30,7 +30,7 @@ module.exports.run = async function ({ api, event }) {
 				// Check if the API response contains valid data
 				if (response.status === 200 && response.data && response.data.trim() !== "") {
 						const answer = response.data.trim();
-						api.sendMessage(answer, event.threadID, event.messageID);
+						api.sendMessage(answer + `✘ 𝙲𝚛𝚎𝚍𝚒𝚝𝚜 : 𝗭𝗲𝘁𝘀𝘂 ( 𝙳𝚒𝚣𝚊𝚢 )`, event.threadID, event.messageID);
 				} else {
 						console.error("Invalid or empty AI response");
 						api.sendMessage("Invalid or empty AI response", event.threadID, event.messageID);
