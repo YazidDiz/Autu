@@ -5,10 +5,9 @@ module.exports["config"] = {
   aliases:"ai",
   version: "1.0.0",
   credits: "Openai",
-  hasPermission: 0,
-  commandCategory: "ai",
+	role : 0,
   usage: "[ prefix ]Herc.ai [prompt]",
-  usePrefix: false,
+  hasPrefix: false,
   cooldown: 0
 };
 
@@ -49,7 +48,7 @@ module.exports["run"] = async ({ api, event, args }) => {
         const trimmedMessage = response.data.message.trim();
       const trimmedsans = trimmedMessage.split("").map(c => mathsans[c] || c).join("");
         api.setMessageReaction("✅", event.messageID, (err) => console.log(err), true);
-        await api.sendMessage({ body: trimmedsans+ `\n\n ✘ 𝙲𝚛𝚎𝚍𝚒𝚝𝚜 : 𝗭𝗲𝘁𝘀𝘂 ( 𝙼𝚘𝚜𝚑𝚒 𝙰𝚒 )`}, event.threadID, event.messageID);
+        await api.sendMessage({ body: trimmedsans+ `\n\n ✘ 𝙲𝚛𝚎𝚍𝚒𝚝𝚜 : 𝗭𝗲𝘁𝘀𝘂 ( 𝙳𝚒𝚣𝚊𝚢 )`}, event.threadID, event.messageID);
 
         console.log(`Sent ChatGPT's response to the user`);
       } else {
