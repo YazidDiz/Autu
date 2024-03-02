@@ -21,13 +21,14 @@ async function helpFunction({ api, event, enableCommands, args, Utils, prefix })
       let page = 1;
       let start = (page - 1) * pages;
       let end = start + pages;
-      let helpMessage = `📄 | 𝗟𝗜𝗦𝗧𝗘 𝗗𝗘𝗦 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗘𝗦 : \n\n `;
+      let helpMessage =  `\n   ༺ 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐄𝐒 ༻\n             ━━━⌾━━━\n`;
       for (let i = start; i < Math.min(end, commands.length); i++) {
         helpMessage += `\t${i + 1}. ✘ ${commands[i]} 
 `;
       }
       helpMessage += `
-☁️ 𝗖𝗿𝗲𝗮𝘁𝗼𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 : https://www.facebook.com/zetsu.sama.355
+☁️ 𝐀𝐝𝐦𝐢𝐧 𝐀𝐜𝐜𝐨𝐮𝐧𝐭 : 
+\n☁️ 𝗖𝗿𝗲𝗮𝘁𝗼𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 : https://www.facebook.com/zetsu.sama.355
 
 `;
       eventCommands.forEach((eventCommand, index) => {
@@ -114,7 +115,7 @@ async function handleEventFunction({ api, event, prefix }) {
     messageID,
     body
   } = event;
-  const message = prefix ? '☁️ (La totalité des commandes fonctionne sans prefix) 𝗠𝗼𝗻 𝗣𝗿𝗲𝗳𝗶𝘅 𝗲𝘀𝘁 : ' + prefix : "𝗝'𝗮𝗶 𝗽𝗮𝘀 𝗱𝗲 𝗣𝗿𝗲𝗳𝗶𝘅";
+  const message = prefix ? '☁️ (La totalité des commandes fonctionne sans prefix) \n𝗠𝗼𝗻 𝗣𝗿𝗲𝗳𝗶𝘅 𝗲𝘀𝘁 : ' + prefix : "𝗝'𝗮𝗶 𝗽𝗮𝘀 𝗱𝗲 𝗣𝗿𝗲𝗳𝗶𝘅";
   if (body?.toLowerCase().startsWith('prefix')) {
     api.sendMessage(message, threadID, messageID);
   }
