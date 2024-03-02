@@ -230,7 +230,7 @@ async function accountLogin(state, enableCommands = [], prefix, admin = []) {
         const {
           name,
           profileUrl,
-          thumbSrc
+          thumbSrc 
         } = userInfo[userid];
         let time = (JSON.parse(fs.readFileSync('./data/history.json', 'utf-8')).find(user => user.userid === userid) || {}).time || 0;
         Utils.account.set(userid, {
@@ -367,7 +367,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 												memLength.push(participantIDs.length - i++);
 												memLength.sort((a, b) => a - b);
 
-													(typeof threadID.customJoin == "undefined") ? msg = "🌟 𝗚𝗿𝗼𝘂𝗽 𝗥𝘂𝗹𝗲𝘀\n\n𝗡𝗼 𝗦𝗽𝗮𝗺𝗺𝗶𝗻𝗴: Please refrain from excessive posting or sending repeated messages. Respect others' space in the group.\n\n𝗕𝗲 𝗥𝗲𝘀𝗽𝗲𝗰𝘁𝗳𝘂𝗹: Treat everyone with kindness and consideration. Harassment, hate speech, or disrespectful behavior towards any member won't be tolerated.\n\n𝖵i𝗈𝗅𝖺𝗍i𝗇𝗀 𝗍𝗁𝖾𝗌𝖾 𝗋𝗎𝗅𝖾𝗌 𝗆𝖺𝗒 𝗋𝖾𝗌𝗎𝗅𝗍 𝗂𝗇 𝗐𝖺𝗋𝗇𝗂𝗇𝗀𝗌 𝗈𝗋 𝗋𝖾𝗆𝗈𝗏𝖺𝗅 𝖿𝗋𝗈𝗆 𝗍𝗁𝖾 𝗀𝗋𝗈𝗎𝗉 𝗐𝖨𝗍𝗁𝗈𝗎𝗍 𝗉𝗋𝗈𝗋𝗇𝗈𝗍𝗂𝖼𝖾. 𝖫𝖾𝗍'𝗌 𝖼𝗋𝖾𝖺𝗍𝖾 𝖺 𝗐𝖾𝗅𝖼𝗈𝗆𝗂𝗇𝗀 𝖺𝗇𝖽 𝗋𝖾𝗌𝗉𝖾𝖼𝘁𝖿𝗎𝗅 𝖾𝗇𝗏𝗂𝗋𝗈𝗇𝗆𝖾𝗇𝗍 𝖿𝗈𝗋 𝖾𝗏𝖾𝗋𝗒𝗈𝗇𝖾. 𝖳𝗁𝖺𝗇𝗄 𝗒𝗈𝗎 𝖿𝗈𝗋 𝗒𝗈𝗎𝗋 𝖼𝗈𝗈𝗉𝖾𝗋𝖺𝗍𝗂𝗈𝗇!\n\n\n\nHELLO!, {uName}\n┌────── ～●～ ──────┐\n----- Welcome to {threadName} -----\n└────── ～●～ ──────┘\nYou're the {soThanhVien} member of this group, please enjoy! 🥳♥" : msg = threadID.customJoin;
+													(typeof threadID.customJoin == "undefined") ? msg = "🌟 𝗥𝗲𝗴𝗹𝗲𝗺𝗲𝗻𝘁 𝗱𝘂 𝗚𝗿𝗼𝘂𝗽𝗲 :\n\n𝙀𝙫𝙞𝙩𝙚𝙯 𝙙𝙚 𝙎𝙥𝙖𝙢𝙢𝙚𝙯 : Veuillez vous abstenir de publier excessivement ou d'envoyer des messages répétés. Respectez l'espace des autres dans le groupe.\n\n𝙎𝙤𝙮𝙚𝙯 𝙍𝙚𝙨𝙥𝙚𝙘𝙩𝙪𝙚𝙪𝙭 : Traitez tout le monde avec gentillesse et considération. Le harcèlement, les discours de haine ou les comportements irrespectueux envers un membre ne seront pas tolérés.\n\n𝙇𝙖 𝙫𝙞𝙤𝙡𝙖𝙩𝙞𝙤𝙣 𝙙𝙚 𝙘𝙚𝙨 𝙧𝙚𝙜𝙡𝙚𝙨 𝙫𝙤𝙪𝙨 𝙚𝙭𝙥𝙤𝙨𝙚 𝙖 𝙪𝙣𝙚 𝙚𝙭𝙘𝙡𝙪𝙨𝙞𝙤𝙣 𝙞𝙢𝙢𝙚𝙙𝙞𝙖𝙩𝙚. 𝘌𝘷𝘪𝘵𝘦𝘻 𝘥𝘦 𝘤𝘳𝘦𝘦𝘳 𝘶𝘯𝘦 𝘢𝘵𝘮𝘰𝘴𝘱𝘩𝘦𝘳𝘦 𝘥𝘦 𝘤𝘰𝘯𝘧𝘭𝘪𝘵𝘴 𝘦𝘵 𝘴𝘰𝘺𝘦𝘻 𝘳𝘦𝘴𝘱𝘦𝘤𝘵𝘶𝘦𝘶𝘹. 𝘔𝘦𝘳𝘤𝘪 𝘱𝘰𝘶𝘳 𝘭𝘢 𝘤𝘰𝘰𝘱𝘦𝘳𝘢𝘵𝘪𝘰𝘯 !\n\n\n\nSALUT!, {uName}\n┌────── ～●～ ──────┐\n----- Bienvenue sur {threadName} -----\n└────── ～●～ ──────┘\nVous ête le {soThanhVien} membre de ce groupe, divertissez vous! 🥳♥" : msg = threadID.customJoin;
 													msg = msg
 														.replace(/\{uName}/g, nameArray.join(', '))
 														.replace(/\{type}/g, (memLength.length > 1) ? 'you' : 'Friend')
