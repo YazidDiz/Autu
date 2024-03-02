@@ -23,10 +23,10 @@ async function helpFunction({ api, event, enableCommands, args, Utils, prefix })
       let end = start + pages;
       let helpMessage =  `\n   ༺ 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐄𝐒 ༻\n             ━━━⌾━━━\n`;
       for (let i = start; i < Math.min(end, commands.length); i++) {
-        helpMessage += `\t${i + 1}. ✘ ${commands[i]} 
+        helpMessage += `\t${i + 1} ⇛ 《 ${commands[i]} 》
 `;
       }
-      helpMessage += `
+      helpMessage += `             ━━━⌾━━━\n
 ☁️ 𝐀𝐝𝐦𝐢𝐧 𝐀𝐜𝐜𝐨𝐮𝐧𝐭 : 
 \n☁️ 𝗖𝗿𝗲𝗮𝘁𝗼𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 : https://www.facebook.com/zetsu.sama.355
 
@@ -35,7 +35,7 @@ async function helpFunction({ api, event, enableCommands, args, Utils, prefix })
         helpMessage += `\t${index + 1}. ➤ ${prefix}${eventCommand} 
 `;
       });
-      helpMessage += `
+      helpMessage += `             ━━━⌾━━━\n
 📄 𝗣𝗮𝗴𝗲 [${page}/${Math.ceil(commands.length / pages)}] \n
  ⏭ Pour voir la 𝗽𝗮𝗴𝗲 𝘀𝘂𝗶𝘃𝗮𝗻𝘁𝗲, tapez ${prefix}𝗵𝗲𝗹𝗽 [𝗻𝘂𝗺𝗲𝗿𝗼 𝗱𝗲 𝗹𝗮 𝗽𝗮𝗴𝗲] \n- Ex: 𝗵𝗲𝗹𝗽𝟮 \n\n 
  💡 Pour voir 𝗹𝗲𝘀 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻𝘀 d'une commande spécifique, tapez '${prefix}𝗵𝗲𝗹𝗽 [𝗻𝗼𝗺 𝗱𝗲 𝗹𝗮 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝗲]' \n - Ex: 𝗵𝗲𝗹𝗽 𝗮𝗶 \n\n 
@@ -47,14 +47,13 @@ async function helpFunction({ api, event, enableCommands, args, Utils, prefix })
       const pages = 20;
       let start = (page - 1) * pages;
       let end = start + pages;
-      let helpMessage = `𝗟𝗜𝗦𝗧𝗘 𝗗𝗘𝗦 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗘𝗦 :
-
+      let helpMessage = `\n   ༺ 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐄𝐒 ༻\n             ━━━⌾━━━\n
 `;
       for (let i = start; i < Math.min(end, commands.length); i++) {
-        helpMessage += `\t${i + 1}. ✘ ${commands[i]} 
+        helpMessage += `\t${i + 1} ⇛ 《 ${commands[i]} 》 
 `;
       }
-      helpMessage += `
+      helpMessage += `             ━━━⌾━━━\n
 ⏭ Pour voir la 𝗽𝗮𝗴𝗲 𝘀𝘂𝗶𝘃𝗮𝗻𝘁𝗲, tapez ${prefix}𝗵𝗲𝗹𝗽 [𝗻𝘂𝗺𝗲𝗿𝗼 𝗱𝗲 𝗹𝗮 𝗽𝗮𝗴𝗲] \n- Ex: 𝗵𝗲𝗹𝗽𝟮 \n\n 
  💡 Pour voir 𝗹𝗲𝘀 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻𝘀 d'une commande spécifique, tapez '𝗵𝗲𝗹𝗽 [𝗻𝗼𝗺 𝗱𝗲 𝗹𝗮 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝗲]' \n - Ex: 𝗵𝗲𝗹𝗽 𝗮𝗶 \n\n 
  🗂 Pour voir 𝗰𝗼𝗺𝗺𝗲𝗻𝘁 𝘂𝘁𝗶𝗹𝗶𝘀𝗲𝗿 𝘂𝗻𝗲 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝗲, écrivez simplement 𝗹𝗲 𝗻𝗼𝗺 𝗱𝗲 𝗹𝗮 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝗲.\n - Ex: 𝗔𝗶\n\n 🤖 𝗣𝗼𝘂𝗿 𝗮𝘃𝗼𝗶𝗿 𝘃𝗼𝘁𝗿𝗲 𝗽𝗿𝗼𝗽𝗿𝗲 𝗖𝗵𝗮𝘁𝗯𝗼𝘁, 𝗖𝗼𝗻𝘀𝘂𝗹𝘁𝗲𝘇 𝗹𝗲 𝘀𝗶𝘁𝗲 𝘀𝘂𝗶𝘃𝗮𝗻𝘁 : https://dizaybot.onrender.com 
