@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 module.exports["config"] = {
-  name: "ai",
-  aliases:"ai",
+  name: "dai",
+  aliases:["ai2,dizay"],
   version: "1.0.0",
   credits: "Openai",
 	role : 0,
