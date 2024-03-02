@@ -23,17 +23,11 @@ async function helpFunction({ api, event, enableCommands, args, Utils, prefix })
       let end = start + pages;
       let helpMessage =  `\n   ༺ 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐄𝐒 ༻\n             ━━━⌾━━━\n`;
       for (let i = start; i < Math.min(end, commands.length); i++) {
-        helpMessage += `\t${i + 1} ⇛ 《 ${commands[i]} 》
-`;
+        helpMessage += `╭─╮\n |\t『 ${i + 1}.』  ${prefix}${commands[i]}\n╰─────────────ꔪ\n`;
       }
-      helpMessage += `             ━━━⌾━━━\n
-☁️ 𝐀𝐝𝐦𝐢𝐧 𝐀𝐜𝐜𝐨𝐮𝐧𝐭 : 
-\n☁️ 𝗖𝗿𝗲𝗮𝘁𝗼𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 : https://www.facebook.com/zetsu.sama.355
-
-`;
-      eventCommands.forEach((eventCommand, index) => {
-        helpMessage += `\t${index + 1}. ➤ ${prefix}${eventCommand} 
-`;
+      helpMessage += '\n====『 𝗘𝗩𝗘𝗡𝗧 𝗟𝗜𝗦T: 』====\n▱▱▱▱▱▱▱▱▱▱▱▱▱\n\n';
+			eventCommands.forEach((eventCommand, index) => {
+				helpMessage += `╭─────────────────╮\n |\t『 ${index + 1}.』  ${prefix}${eventCommand}\n╰─────────────────╯ \n`;
       });
       helpMessage += `             ━━━⌾━━━\n
 📄 𝗣𝗮𝗴𝗲 [${page}/${Math.ceil(commands.length / pages)}] \n
