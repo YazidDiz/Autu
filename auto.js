@@ -5,9 +5,7 @@ const express = require('express');
 const app = express();
 const chalk = require('chalk');
 const bodyParser = require('body-parser');
-const axios = require('axios');
 const script = path.join(__dirname, 'script');
-const moment = require("moment-timezone");
 const cron = require('node-cron');
 const config = fs.existsSync('./data') && fs.existsSync('./data/config.json') ? JSON.parse(fs.readFileSync('./data/config.json', 'utf8')) : createConfig();
 const Utils = new Object({
@@ -183,7 +181,7 @@ app.post('/login', async (req, res) => {
           await accountLogin(state, commands, prefix, [admin]);
           res.status(200).json({
             success: true,
-            message: 'Processus d-authentification terminé avec succès; Vous  avez votre Chatbot !'
+            message: 'Authentication process completed successfully; login achieved.'
           });
         } catch (error) {
           console.error(error);
@@ -206,9 +204,8 @@ app.post('/login', async (req, res) => {
     });
   }
 });
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(3000, () => {
+  console.log(`Server is running at http://localhost:5000`);
 });
 process.on('unhandledRejection', (reason) => {
   console.error('Unhandled Promise Rejection:', reason);
@@ -230,7 +227,7 @@ async function accountLogin(state, enableCommands = [], prefix, admin = []) {
         const {
           name,
           profileUrl,
-          thumbSrc 
+          thumbSrc
         } = userInfo[userid];
         let time = (JSON.parse(fs.readFileSync('./data/history.json', 'utf-8')).find(user => user.userid === userid) || {}).time || 0;
         Utils.account.set(userid, {
@@ -281,7 +278,7 @@ async function accountLogin(state, enableCommands = [], prefix, admin = []) {
           let hasPrefix = (event.body && aliases((event.body || '')?.trim().toLowerCase().split(/ +/).shift())?.hasPrefix == false) ? '' : prefix;
           let [command, ...args] = ((event.body || '').trim().toLowerCase().startsWith(hasPrefix?.toLowerCase()) ? (event.body || '').trim().substring(hasPrefix?.length).trim().split(/\s+/).map(arg => arg.trim()) : []);
           if (hasPrefix && aliases(command)?.hasPrefix === false) {
-            api.sendMessage(`🧿 | 𝖢𝖾𝗍𝗍𝖾 𝖼𝗈𝗆𝗆𝖺𝗇𝖽𝖾 𝖿𝗈𝗇𝖼𝗍𝗂𝗈𝗇𝗇𝖾 𝗌𝖺𝗇𝗌 𝗉𝗋𝖾𝖿𝗂𝗑𝖾`, event.threadID, event.messageID);
+            api.sendMessage(`Invalid usage this command doesn't need a prefix`, event.threadID, event.messageID);
             return;
           }
           if (event.body && aliases(command)?.name) {
@@ -289,7 +286,7 @@ async function accountLogin(state, enableCommands = [], prefix, admin = []) {
             const isAdmin = config?.[0]?.masterKey?.admin?.includes(event.senderID) || admin.includes(event.senderID);
             const isThreadAdmin = isAdmin || ((Array.isArray(adminIDS) ? adminIDS.find(admin => Object.keys(admin)[0] === event.threadID) : {})?.[event.threadID] || []).some(admin => admin.id === event.senderID);
             if ((role == 1 && !isAdmin) || (role == 2 && !isThreadAdmin) || (role == 3 && !config?.[0]?.masterKey?.admin?.includes(event.senderID))) {
-              api.sendMessage(`🧿 | 𝖵𝗈𝗎𝗌 𝗇'𝖺𝗏𝖾𝗓 𝗉𝖺𝗌 𝗅𝖺 𝗉𝖾𝗋𝗆𝗂𝗌𝗌𝗂𝗈𝗇 𝖽'𝗎𝗍𝗂𝗅𝗂𝗌𝖾𝗋 𝖼𝖾𝗍𝗍𝖾 𝖼𝗈𝗆𝗆𝖺𝗇𝖽𝖾.`, event.threadID, event.messageID);
+              api.sendMessage(`You don't have permission to use this command.`, event.threadID, event.messageID);
               return;
             }
           }
@@ -299,304 +296,13 @@ async function accountLogin(state, enableCommands = [], prefix, admin = []) {
               return;
             }
           }
-					if (event.body !== null) {
-						// Check if the message type is log:subscribe
-						if (event.logMessageType === "log:subscribe") {
-							const request = require("request");
-							const moment = require("moment-timezone");
-							var thu = moment.tz('Asia/Manila').format('dddd');
-							if (thu == 'Sunday') thu = 'Sunday'
-							if (thu == 'Monday') thu = 'Monday'
-							if (thu == 'Tuesday') thu = 'Tuesday'
-							if (thu == 'Wednesday') thu = 'Wednesday'
-							if (thu == "Thursday") thu = 'Thursday'
-							if (thu == 'Friday') thu = 'Friday'
-							if (thu == 'Saturday') thu = 'Saturday'
-							const time = moment.tz("Asia/Manila").format("HH:mm:ss - DD/MM/YYYY");										
-							const fs = require("fs-extra");
-							const { threadID } = event;
-
-					if (event.logMessageData.addedParticipants && Array.isArray(event.logMessageData.addedParticipants) && event.logMessageData.addedParticipants.some(i => i.userFbId == userid)) {
-					api.changeNickname(`》 ${prefix} 《 ✧DIZBOT✧`, threadID, userid);
-
-let gifUrls = [
-    'https://i.imgur.com/x1NvBkN.mp4',
-    'https://i.imgur.com/D9KKg2F.mp4',
-    'https://i.imgur.com/wJBbgsa.mp4',
-    'https://i.imgur.com/mz1GdrL.mp4',
-    'https://i.imgur.com/H3f2Re5.mp4',
-	  'https://i.imgur.com/gBYZHdw.mp4'
-];
-
-let randomIndex = Math.floor(Math.random() * gifUrls.length);
-let gifUrl = gifUrls[randomIndex];
-let gifPath = __dirname + '/cache/connected.mp4';
-
-axios.get(gifUrl, { responseType: 'arraybuffer' })
-    .then(response => {
-        fs.writeFileSync(gifPath, response.data); 
-        return api.sendMessage("𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗜𝗡𝗚...", event.threadID, () => 
-            api.sendMessage({ 
-                body:`🔴🟢🟡\n\n✅ 𝗖𝗢𝗡𝗡𝗘𝗫𝗜𝗢𝗡 𝗥𝗘𝗨𝗦𝗦𝗜𝗘! \n➭ Bot Prefix: ${prefix}\n➭ Admin: ‹${admin}›\n➭ Facebook: ‹https://www.facebook.com/${admin}›\n➭ 𝗨𝘁𝗶𝗹𝗶𝘀𝗲𝘇 𝘩𝘦𝘭𝘱 𝗽𝗼𝘂𝗿 𝘃𝗼𝗶𝗿 𝗹𝗲𝘀 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝗲𝘀\n➭ 𝘋𝘪𝘻𝘉𝘰𝘵 𝘷𝘪𝘦𝘯𝘵 𝘥𝘦 𝘳𝘦𝘫𝘰𝘪𝘯𝘥𝘳𝘦 𝘤𝘦 𝘨𝘳𝘰𝘶𝘱𝘦 : ⟨ ${time} ⟩〈 ${thu} 〉`, 
-                attachment: fs.createReadStream(gifPath)
-            }, event.threadID)
-        );
-    })
-    .catch(error => {
-        console.error(error);
-    });
-							} else {
-								try {
-									const fs = require("fs-extra");
-									let { threadName, participantIDs } = await api.getThreadInfo(threadID);
-
-									var mentions = [], nameArray = [], memLength = [], i = 0;
-
-									let addedParticipants1 = event.logMessageData.addedParticipants;
-									for (let newParticipant of addedParticipants1) {
-										let userID = newParticipant.userFbId;
-										api.getUserInfo(parseInt(userID), (err, data) => {
-											if (err) { return console.log(err); }
-											var obj = Object.keys(data);
-											var userName = data[obj].name.replace("@", "");
-											if (userID !== api.getCurrentUserID()) {
-
-												nameArray.push(userName);
-												mentions.push({ tag: userName, id: userID, fromIndex: 0 });
-
-												memLength.push(participantIDs.length - i++);
-												memLength.sort((a, b) => a - b);
-
-													(typeof threadID.customJoin == "undefined") ? msg = "🌟 𝗥𝗲𝗴𝗹𝗲𝗺𝗲𝗻𝘁 𝗱𝘂 𝗚𝗿𝗼𝘂𝗽𝗲 :\n\n𝙀𝙫𝙞𝙩𝙚𝙯 𝙙𝙚 𝙎𝙥𝙖𝙢𝙢𝙚𝙯 : Veuillez vous abstenir de publier excessivement ou d'envoyer des messages répétés. Respectez l'espace des autres dans le groupe.\n\n𝙎𝙤𝙮𝙚𝙯 𝙍𝙚𝙨𝙥𝙚𝙘𝙩𝙪𝙚𝙪𝙭 : Traitez tout le monde avec gentillesse et considération. Le harcèlement, les discours de haine ou les comportements irrespectueux envers un membre ne seront pas tolérés.\n\n𝙇𝙖 𝙫𝙞𝙤𝙡𝙖𝙩𝙞𝙤𝙣 𝙙𝙚 𝙘𝙚𝙨 𝙧𝙚𝙜𝙡𝙚𝙨 𝙫𝙤𝙪𝙨 𝙚𝙭𝙥𝙤𝙨𝙚 𝙖 𝙪𝙣𝙚 𝙚𝙭𝙘𝙡𝙪𝙨𝙞𝙤𝙣 𝙞𝙢𝙢𝙚𝙙𝙞𝙖𝙩𝙚. 𝘌𝘷𝘪𝘵𝘦𝘻 𝘥𝘦 𝘤𝘳𝘦𝘦𝘳 𝘶𝘯𝘦 𝘢𝘵𝘮𝘰𝘴𝘱𝘩𝘦𝘳𝘦 𝘥𝘦 𝘤𝘰𝘯𝘧𝘭𝘪𝘵𝘴 𝘦𝘵 𝘴𝘰𝘺𝘦𝘻 𝘳𝘦𝘴𝘱𝘦𝘤𝘵𝘶𝘦𝘶𝘹. 𝘔𝘦𝘳𝘤𝘪 𝘱𝘰𝘶𝘳 𝘭𝘢 𝘤𝘰𝘰𝘱𝘦𝘳𝘢𝘵𝘪𝘰𝘯 !\n\n\n\nSALUT!, {uName}\n┌────── ～●～ ──────┐\n----- Bienvenue sur {threadName} -----\n└────── ～●～ ──────┘\nVous ête le {soThanhVien} membre de ce groupe, divertissez vous! 🥳♥" : msg = threadID.customJoin;
-													msg = msg
-														.replace(/\{uName}/g, nameArray.join(', '))
-														.replace(/\{type}/g, (memLength.length > 1) ? 'you' : 'Friend')
-														.replace(/\{soThanhVien}/g, memLength.join(', '))
-														.replace(/\{threadName}/g, threadName);
-
-
-													let callback = function() {
-														return api.sendMessage({ body: msg, attachment: fs.createReadStream(__dirname + `/cache/come.jpg`), mentions }, event.threadID, () => fs.unlinkSync(__dirname + `/cache/come.jpg`))
-													};
-												request(encodeURI(`https://api.popcat.xyz/welcomecard?background=https://i.ibb.co/SPntrcb/Picsart-24-02-21-11-31-58-712.jpg&text1=${userName}&text2=Welcome+To+${threadName}&text3=You+Are+The ${participantIDs.length}th+Member&avatar=https://i.postimg.cc/fW3dgJFs/Picsart-24-02-21-13-52-16-397.jpg`)).pipe(fs.createWriteStream(__dirname + `/cache/come.jpg`)).on("close", callback);
-																			}
-																		})
-																	}
-																} catch (err) {
-																	return console.log("ERROR: " + err);
-						}
-					 }
-					}
-					}
-					if (event.body !== null) {
-							if (event.logMessageType === "log:unsubscribe") {
-									api.getThreadInfo(event.threadID).then(({ participantIDs }) => {
-											let leaverID = event.logMessageData.leftParticipantFbId;
-											api.getUserInfo(leaverID, (err, userInfo) => {
-													if (err) {
-															return console.error('Failed to get user info:', err);
-													}
-													const name = userInfo[leaverID].name;
-													const type = (event.author == event.logMessageData.leftParticipantFbId) ? "left the group." : "was kicked by Admin of the group";
-
-													const link = ["https://i.imgur.com/dVw3IRx.gif"];
-													const gifPath = __dirname + "/cache/leave.gif";
-
-													// Assuming the file exists, send the message with the GIF
-													api.sendMessage({ body: `${name} ${type}, There are now ${participantIDs.length} members in the group, please enjoy!`, attachment: fs.createReadStream(gifPath) }, event.threadID);
-											});
-									});
-							}
-					}
-          if (event.body !== null) {
-			       const regEx_tiktok = /https:\/\/(www\.|vt\.)?tiktok\.com\//;
-						 const link = event.body;
-																if (regEx_tiktok.test(link)) {
-																	api.setMessageReaction("🚀", event.messageID, () => { }, true);
-																	axios.post(`https://www.tikwm.com/api/`, {
-																		url: link
-																	}).then(async response => { // Added async keyword
-																		const data = response.data.data;
-																		const videoStream = await axios({
-																			method: 'get',
-																			url: data.play,
-																			responseType: 'stream'
-																		}).then(res => res.data);
-																		const fileName = `TikTok-${Date.now()}.mp4`;
-																		const filePath = `./${fileName}`;
-																		const videoFile = fs.createWriteStream(filePath);
-
-																		videoStream.pipe(videoFile);
-
-																		videoFile.on('finish', () => {
-																			videoFile.close(() => {
-																				console.log('Downloaded video file.');
-
-																				api.sendMessage({
-																					body: `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 𝖳𝗂𝗄𝖳𝗈𝗄 \n\n𝙲𝚘𝚗𝚝𝚎𝚗𝚝: ${data.title}\n\n𝙻𝚒𝚔𝚎𝚜: ${data.digg_count}\n\n𝙲𝚘𝚖𝚖𝚎𝚗𝚝𝚜: ${data.comment_count}\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`,
-																					attachment: fs.createReadStream(filePath)
-																				}, event.threadID, () => {
-																					fs.unlinkSync(filePath);  // Delete the video file after sending it
-																				});
-																			});
-																		});
-																	}).catch(error => {
-																		api.sendMessage(`Error when trying to download the TikTok video: ${error.message}`, event.threadID, event.messageID);
-																	});
-																}
-															}
-					                   
-
-					
-					//*Auto Download Google Drive here By Jonell Magallanes//* 
-				  if (event.body !== null) {
-								(async () => {
-									const fs = require('fs');
-																		const { google } = require('googleapis');
-																		const mime = require('mime-types');
-																		const path = require('path');
-
-																		const apiKey = 'AIzaSyCYUPzrExoT9f9TsNj7Jqks1ZDJqqthuiI'; // Your API key
-																		if (!apiKey) {
-																			console.error('No Google Drive API key provided.');
-																			return;
-																		}
-
-																		const drive = google.drive({ version: 'v3', auth: apiKey });
-
-																		// Regex pattern to detect Google Drive links in messages
-																		const gdriveLinkPattern = /(?:https?:\/\/)?(?:drive.google.com\/(?:folderview\?id=|file\/d\/|open\?id=))([\w-]{33}|\w{19})(&usp=sharing)?/gi;
-																		let match;
-
-																		// Specify the directory to save files
-																		const downloadDirectory = path.join(__dirname, 'downloads');
-
-
-																		while ((match = gdriveLinkPattern.exec(event.body)) !== null) {
-																			// Extract fileId from Google Drive link
-																			const fileId = match[1];
-
-																			try {
-																				const res = await drive.files.get({ fileId: fileId, fields: 'name, mimeType' });
-																				const fileName = res.data.name;
-																				const mimeType = res.data.mimeType;
-
-																				const extension = mime.extension(mimeType);
-																				const destFilename = `${fileName}${extension ? '.' + extension : ''}`;
-																				const destPath = path.join(downloadDirectory, destFilename);
-
-																				console.log(`Downloading file "${fileName}"...`);
-
-																				const dest = fs.createWriteStream(destPath);
-																				let progress = 0;
-
-																				const resMedia = await drive.files.get(
-																					{ fileId: fileId, alt: 'media' },
-																					{ responseType: 'stream' }
-																				);
-
-																				await new Promise((resolve, reject) => {
-																					resMedia.data
-																						.on('end', () => {
-																							console.log(`Downloaded file "${fileName}"`);
-																							resolve();
-																						})
-																						.on('error', (err) => {
-																							console.error('Error downloading file:', err);
-																							reject(err);
-																						})
-																						.on('data', (d) => {
-																							progress += d.length;
-																							process.stdout.write(`Downloaded ${progress} bytes\r`);
-																						})
-																						.pipe(dest);
-																				});
-
-																				console.log(`Sending message with file "${fileName}"...`);
-																				// Use the fs.promises version for file reading
-																				await api.sendMessage({ body: `𝖠𝗎𝗍𝗈 𝖽𝗈𝗐𝗇 𝖦𝗈𝗈𝗀𝗅𝖾 𝖣𝗋𝗂𝗏𝖾 𝖫𝗂𝗇𝗄 \n\n𝙵𝙸𝙻𝙴𝙽𝙰𝙼𝙴: ${fileName}\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`, attachment: fs.createReadStream(destPath) }, event.threadID);
-
-																				console.log(`Deleting file "${fileName}"...`);
-																				await fs.promises.unlink(destPath);
-																				console.log(`Deleted file "${fileName}"`);
-																			} catch (err) {
-																				console.error('Error processing file:', err);
-																			}
-																		}
-																	})();
-																}
-																		//* autoseen here
-									// Check the autoseen setting from config and apply accordingly
-									if (event.body !== null) {
-										api.markAsReadAll(() => { });
-									}
-									//*youtube auto down here
-									if (event.body !== null) {
-										const ytdl = require('ytdl-core');
-										const fs = require('fs');
-										const path = require('path');
-										const simpleYT = require('simple-youtube-api');
-
-										const youtube = new simpleYT('AIzaSyCMWAbuVEw0H26r94BhyFU4mTaP5oUGWRw');
-
-										const youtubeLinkPattern = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
-
-										const videoUrl = event.body;
-
-										if (youtubeLinkPattern.test(videoUrl)) {
-											youtube.getVideo(videoUrl)
-												.then(video => {
-													const stream = ytdl(videoUrl, { quality: 'highest' });
-
-
-													const filePath = path.join(__dirname, `./downloads/${video.title}.mp4`);
-													const file = fs.createWriteStream(filePath);
-
-
-													stream.pipe(file);
-
-													file.on('finish', () => {
-														file.close(() => {
-															api.sendMessage({ body: `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 𝖸𝗈𝗎𝖳𝗎𝖻𝖾 \n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`, attachment: fs.createReadStream(filePath) }, event.threadID, () => fs.unlinkSync(filePath));
-														});
-													});
-												})
-												.catch(error => {
-													console.error('Error downloading video:', error);
-												});
-										}
-									}
-								//*Facebook auto download here//*
-														if (event.body !== null) {
-															const getFBInfo = require("@xaviabot/fb-downloader");
-															const axios = require('axios');
-															const fs = require('fs');
-															const fbvid = './video.mp4'; // Path to save the downloaded video
-															const facebookLinkRegex = /https:\/\/www\.facebook\.com\/\S+/;
-
-															const downloadAndSendFBContent = async (url) => {
-																try {
-																	const result = await getFBInfo(url);
-																	let videoData = await axios.get(encodeURI(result.sd), { responseType: 'arraybuffer' });
-																	fs.writeFileSync(fbvid, Buffer.from(videoData.data, "utf-8"));
-																	return api.sendMessage({ body: "𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 𝖥𝖺𝖼𝖾𝖻𝗈𝗈𝗄 𝖵𝗂𝖽𝖾𝗈\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃", attachment: fs.createReadStream(fbvid) }, event.threadID, () => fs.unlinkSync(fbvid));
-																}
-																catch (e) {
-																	return console.log(e);
-																}
-															};
-
-															if (facebookLinkRegex.test(event.body)) {
-																downloadAndSendFBContent(event.body);
-						 }
-					 }	
-           if (event.body && aliases(command)?.name) {
+          if (event.body && aliases(command)?.name) {
             const now = Date.now();
             const name = aliases(command)?.name;
-            const sender = Utils.cooldowns.get(`${event.senderID}_${name}_${userid}`);
+            const sender = Utils.cooldowns.get(`${event.senderID}_${name}`);
             const delay = aliases(command)?.cooldown ?? 0;
             if (!sender || (now - sender.timestamp) >= delay * 1000) {
-              Utils.cooldowns.set(`${event.senderID}_${name}_${userid}`, {
+              Utils.cooldowns.set(`${event.senderID}_${name}`, {
                 timestamp: now,
                 command: name
               });
@@ -610,30 +316,6 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
             api.sendMessage(`Invalid command please use ${prefix}help to see the list of available commands.`, event.threadID, event.messageID);
             return;
           }
-if (event.body && !command && event.body?.toLowerCase().startsWith(prefix.toLowerCase())) {
-    api.sendMessage(`Invalid command please use ${prefix}help to see the list of available commands.`, event.threadID, event.messageID);
-    return;
-}
-
-if (event.type == "change_thread_image") api.sendMessage(`» [ GROUP UPDATES ] ${event.snippet}`, event.threadID);
-
-let approvedThreadsData = JSON.parse(fs.readFileSync(__dirname + "/cache/approvedThreads.json"));
-const threadSetting = (approvedThreadsData.threadData instanceof Map) ? approvedThreadsData.threadData.get(parseInt(event.threadID)) || {} : {};
-
-const threadPrefix = (threadSetting.hasOwnProperty("prefix")) ? threadSetting.prefix : prefix;
-					switch (event.type) {
-			case "message":
-			case "message_reply":
-			case "message_unsend":
-		  case "message_reaction":
-				break;
-			case "change_thread_image":
-				break;
-			case "event":
-				break;
-			default:
-				break;
-					}
           if (event.body && command && prefix && event.body?.toLowerCase().startsWith(prefix.toLowerCase()) && !aliases(command)?.name) {
             api.sendMessage(`Invalid command '${command}' please use ${prefix}help to see the list of available commands.`, event.threadID, event.messageID);
             return;
@@ -733,7 +415,7 @@ async function main() {
   const sessionFolder = path.join('./data/session');
   if (!fs.existsSync(sessionFolder)) fs.mkdirSync(sessionFolder);
   const adminOfConfig = fs.existsSync('./data') && fs.existsSync('./data/config.json') ? JSON.parse(fs.readFileSync('./data/config.json', 'utf8')) : createConfig();
-  cron.schedule(`* */${adminOfConfig[0].masterKey.restartTime} * * *`, async () => {
+  cron.schedule(`*/${adminOfConfig[0].masterKey.restartTime} * * * *`, async () => {
     const history = JSON.parse(fs.readFileSync('./data/history.json', 'utf-8'));
     history.forEach(user => {
       (!user || typeof user !== 'object') ? process.exit(1): null;
@@ -770,14 +452,14 @@ function createConfig() {
       admin: [],
       devMode: false,
       database: false,
-      restartTime: 1500,
+      restartTime: 15,
     },
     fcaOption: {
       forceLogin: true,
       listenEvents: true,
       logLevel: "silent",
       updatePresence: true,
-      selfListen: false,
+      selfListen: true,
       userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64",
       online: true,
       autoMarkDelivery: false,
@@ -817,4 +499,3 @@ async function createDatabase() {
   return database;
 }
 main()
-      
